@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Card</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(to right, #d23131, #fad0c4);
+      color: #333;
+      overflow-x: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 100%;
+      width: 90%;
+      max-width: 800px;
+      padding: 20px;
+      text-align: center;
+      background: #000602;
+      border-radius: 15px;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      overflow: hidden;
+      position: relative;
+    }
+    .quote-line1 {
+        font-family: cursive;
+        font-size: 30px;
+        color: #ff6584;
+    }
+    .quote-line {
+      font-size: 1.5em;
+      color: #8282fc;
+      margin: 10px 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1s ease;
+    }
+    .quote-line.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .images {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    .images img {
+      width: 45%;
+      max-width: 150px;
+      height: auto;
+      border-radius: 10px;
+      opacity: 0;
+      transform: scale(0.8);
+      transition: all 0.5s ease;
+    }
+    .images img.show {
+      opacity: 1;
+      transform: scale(1);
+    }
+    .balloons {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .balloon {
+      position: absolute;
+      bottom: -100px;
+      width: 60px;
+      height: 80px;
+      background-color: rgba(252, 6, 6, 0.8);
+      border-radius: 50%;
+      animation: float 8s infinite ease-in-out;
+      transform-origin: 50% 100%;
+    }
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-400px) rotate(15deg); }
+      100% { transform: translateY(0) rotate(-15deg); }
+    }
+    .play-button {
+      background: #ff6584;
+      color: #fff;
+      padding: 10px 20px;
+      border-radius: 50px;
+      font-size: 1em;
+      cursor: pointer;
+      z-index: 10;
+      margin-top: 20px;
+      position: relative;
+      display: inline-block;
+    }
+    /* Responsive Styling */
+    @media (max-width: 768px) {
+      .quote-line { font-size: 1.2em; }
+      .images img { width: 80px; height: auto; }
+    }
+    @media (max-width: 480px) {
+      .quote-line { font-size: 1em; }
+      .play-button { font-size: 0.9em; padding: 8px 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Line-by-line quote -->
+    <div id="quote">
+      <div class="quote-line1">Happy Birthday to the most amazing girl!🎂🎂</div>
+      <div class="quote-line">"You are a precious gem, unique and beautiful."</div>
+      <div class="quote-line">"May your day be filled with love, laughter, and happiness!"</div>
+      <div class="quote-line">"Here's to many more incredible years ahead."</div>
+      <div class="quote-line1">🌟。💕。🤗 🍀
+        。🎁 。🎉  🍾 🌟
+         🎉 Happy  
+            Birthday Pooja!   🥂
+        💜。💎
+        。🍀。 🌹。🎉。
+         🌟。 😊。 🎶</div>
+    </div>
+    
+    <!-- Image gallery -->
+    <div class="images">
+      <img src="photo1.jpg" alt="Image 1" class="img">
+      <img src="photo2.jpg" alt="Image 2" class="img">
+      <img src="photo3.jpg" alt="Image 3" class="img">
+      <img src="photo4.jpg" alt="Image 4" class="img">
+    </div>
+    
+    <!-- Play Music Button -->
+    <button class="play-button" onclick="toggleMusic()">Play Music</button>
+    <audio id="birthday-audio" src="happy-birthday-254480.mp3" loop></audio>
+  </div>
+
+  <!-- Balloons Animation -->
+  <div class="balloons">
+    <div class="balloon" style="left: 10%; background-color: #ff6584; animation-duration: 7s;"></div>
+    <div class="balloon" style="left: 30%; background-color: #ffafbd; animation-duration: 6s;"></div>
+    <div class="balloon" style="left: 50%; background-color: #ff9a9e; animation-duration: 8s;"></div>
+    <div class="balloon" style="left: 70%; background-color: #fad0c4; animation-duration: 5s;"></div>
+    <div class="balloon" style="left: 90%; background-color: #fcb69f; animation-duration: 9s;"></div>
+  </div>
+
+  <script>
+    // Line-by-line reveal animation for the quote
+    const lines = document.querySelectorAll(".quote-line");
+    let delay = 0.5;
+    lines.forEach(line => {
+      line.style.transitionDelay = `${delay}s`;
+      delay += 0.5;
+      line.classList.add("show");
+    });
+
+    // Scroll animation for images
+    window.addEventListener("scroll", () => {
+      const images = document.querySelectorAll(".img");
+      images.forEach(img => {
+        const rect = img.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 50) {
+          img.classList.add("show");
+        }
+      });
+    });
+
+    // Play/pause music
+    let isPlaying = false;
+    const audio = document.getElementById("birthday-audio");
+    function toggleMusic() {
+      if (isPlaying) {
+        audio.pause();
+        isPlaying = false;
+      } else {
+        audio.play();
+        isPlaying = true;
+      }
+    }
+  </script>
+
+</body>
+</html>
